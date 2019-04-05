@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:simple_login_form/MyTheme.dart';
+import 'package:dynamic_theme/dynamic_theme.dart';
 
 void main() => runApp(MyApp());
 
@@ -6,12 +8,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo Login',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Connexion'),
+    return new DynamicTheme(
+      defaultBrightness: Brightness.light,
+      data: (brightness) => brightness == Brightness.light
+          ? MyTheme.defaultTheme
+          : MyTheme.darkTheme,
+      themedWidgetBuilder: (context, theme) {
+        return MaterialApp(
+          title: 'Flutter Demo Login',
+          theme: theme,
+          home: MyHomePage(title: 'Connexion'),
+        );
+      },
     );
   }
 }
@@ -43,6 +51,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final String emailPattern =
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
+  void _turnOnOffLight() {
+    DynamicTheme.of(context).setBrightness(
+        Theme.of(context).brightness == Brightness.dark
+            ? Brightness.light
+            : Brightness.dark);
+  }
 
   void _showDialog() {
     showDialog(
@@ -89,6 +104,10 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(
+              onPressed: _turnOnOffLight, icon: Icon(Icons.lightbulb_outline))
+        ],
       ),
       body: new Form(
         key: formKey,
