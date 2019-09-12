@@ -18,7 +18,7 @@ class MyTheme {
   static final ThemeData darkTheme = _buildDarkTheme();
 
   static ThemeData _buildLightTheme() {
-    final ThemeData base = ThemeData.light();
+    final ThemeData base = ThemeData(fontFamily: 'DayRoman');
 
     return base.copyWith(
       accentColor: SecondaryColor,

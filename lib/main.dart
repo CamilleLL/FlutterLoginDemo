@@ -142,6 +142,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
                 },
               ),
+              new Text("Texte avec police par défaut"),
+              new Text("Texte avec custom font", style: TextStyle(fontFamily: 'DayRoman')),
               new Container(
                 child: Hero(
                     tag: "fabHero",
